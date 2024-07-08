@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&display=swap');
+
+* {
+   font-family: "Noto Serif JP", sans-serif; 
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.video-player {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-height: 70vh;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.subtitle-panel {
+    flex: 1;
+    background-color: #0a002a;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+}
+
+h2 {
+    color: #ffffff;
+    font-size: 23px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.subtitle-item {
+    background-color: #0a002a;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 18px;
+    line-height: 1.4;
+    cursor: pointer;
+    border: 1px solid #281f44;
+    position: relative;
+}
+
+.subtitle-item.active {
+    border-color: #fc821f;
+    background-color: #1a0040;
+}
+
+.subtitle-time {
+    display: block;
+    font-size: 12px;
+    color: #8d8d8d;
+    margin-bottom: 5px;
+}
+
+.subtitle-text {
+    display: block;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label {
+    background-color: #e94560;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #e94560;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.centralize-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+button.sticky {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.small-button {
+    padding: 3px 6px;
+    font-size: 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.subtitle-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.subtitle-panel::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+.subtitle-panel::-webkit-scrollbar-thumb {
+    background: #2a2a4e;
+    border-radius: 4px;
+}
+
+.subtitle-panel::-webkit-scrollbar-thumb:hover {
+    background: #3a3a5e;
+}
+
+.copied-message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: none;
+    z-index: 3;
+}

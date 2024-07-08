@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anime Subtitle Study</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="video-player">
+        <div class="video-container">
+          <video id="video" controls>
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <input
+          type="file"
+          id="video-upload"
+          accept="video/*,audio/*,.mkv,.avi,.mov,.wmv,.flv,.webm"
+        />
+        <label for="video-upload">Upload Video/Audio</label>
+      </div>
+      <div class="subtitle-panel">
+        <h2>字幕</h2>
+        <div class="centralize-button">
+          <button id="toggle-retime-buttons">Show Retiming Buttons</button>
+        </div>
+        <div id="subtitle-list">
+          <p id="subtitle-placeholder">
+            No subtitles loaded. Please upload a subtitle file.
+          </p>
+        </div>
+        <input type="file" id="subtitle-upload" accept=".srt,.vtt,.ass,.ssa" />
+        <label for="subtitle-upload">Upload Subtitles</label>
+      </div>
+      <div id="copied-message" class="copied-message">Image copied</div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.10.1/ffmpeg.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
