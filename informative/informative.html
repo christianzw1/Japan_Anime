@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anime Subtitle Study - Info</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="info-panel">
+            <h1>Anime Subtitle Study - Information</h1>
+            <p>Welcome to Anime Subtitle Study! Here is a guide to help you understand and use all the features of this site.</p>
+            
+            <h2>Features</h2>
+            <ul>
+                <li><strong>Upload Video/Audio:</strong> Click the "Upload Video/Audio" button to upload your media files. Supported formats include .mp4, .mkv, .avi, .mov, .wmv, .flv, .webm. The video will be played in the player for subtitle synchronization.</li>
+                <li><strong>View Full Subtitles:</strong> Click the "View Full Subtitles" button to see all the subtitles loaded for the video in a separate modal window. This helps you review the entire subtitle file at once.</li>
+                <li><strong>Pause on Unknown Words:</strong> Enable or disable automatic pausing when unknown words appear in the subtitles by clicking the "Enable Pause" or "Disable Pause" buttons. When enabled, the video pauses for 3 seconds whenever an unknown word appears, giving you time to read and understand it.</li>
+                <li><strong>Fullscreen Mode:</strong> Click the "Fullscreen" button to toggle fullscreen mode for the video player. This is useful for an immersive viewing experience.</li>
+                <li><strong>Retiming Buttons:</strong> Show or hide retiming buttons by clicking the "Show Retiming Buttons" button. These buttons allow you to adjust the timing of subtitles to match the video more accurately.</li>
+                <li><strong>Export/Import Unknown Words:</strong> Save or load your list of unknown words using the "Export Unknown Words" and "Import Unknown Words" buttons. Exporting creates a JSON file of all unknown words, and importing allows you to load a previously saved list.</li>
+                <li><strong>Toggle Subtitle Panel:</strong> Use the arrow buttons to show or hide the subtitle panel for a cinema-like viewing experience. This hides the subtitle panel, centering the video player.</li>
+            </ul>
+            
+            <h2>Keyboard Shortcuts</h2>
+            <ul>
+                <li><strong>S:</strong> Capture a frame from the video.</li>
+                <li><strong>Left Arrow:</strong> Navigate to the previous subtitle.</li>
+                <li><strong>Right Arrow:</strong> Navigate to the next subtitle.</li>
+            </ul>
+            
+            <h2>Unknown Words</h2>
+            <p>When an unknown word appears in the subtitles, it will be highlighted in yellow. You can edit the unknown words list by clicking the "Edit Unknown Words" button next to each subtitle.</p>
+            <p><strong>Importing Unknown Words from TXT:</strong></p>
+            <p>Using the Migaku Legacy extension, you can export all unknown words to Anki as cards in a separate deck called "unknown words". When creating this deck, make sure to create a specific card type that only contains the front and back fields. On the front, add the unknown word, and on the back, add its definition. This ensures that Migaku only creates cards for the words and their meanings. Then, export these cards within Anki as a .txt file. Use the following prompt with ChatGPT to format the list for import:</p>
+            <pre>
+                <code>
+From now on, I will send you photos or txt files of Japanese subtitles.
+Your role is to identify the unknown words (when they are marked or have
+a red underline under them. Usually, the furigana reading appears on these
+words) and create a list with all these words plus their meanings in
+(your native language) according to the sentence. You should create the
+list in this format:
+
+調べ上げ (しらべあげ) = investigate
+息の根 (いきのね) = vitality
+
+And so on. Create precise translations that convey the actual meaning of
+the word. If you understand, I will send you the first words. Do not
+translate proper names. Translate ALL words underlined in red or highlighted.
+If it is a TXT file, just take the Japanese words present and create a list
+with the same format indicated above. Do not repeat words. Create a unique
+list for me to copy. Make sure not to add the kanji form as the word. For
+example, in the txt ガス焜炉 is in its katakana form ガスコンロ. The word you
+translate should always be at the beginning of the information. For example,
+in the txt it says "ガスコンロ がすこんろ【ガス焜炉】 gas stove, gas cooker, gas range"
+so ガスコンロ should be on the list as the unknown word and not its kanji form.
+                </code>
+            </pre>
+            <p>Copy the list generated by ChatGPT and paste it into a new .txt file. Then upload this .txt file to the site, and it will automatically recognize the words in the subtitles and add the unknown words to the list.</p>
+            <p>If you are unable to create this list, you can also manually add the unknown words and their meanings by clicking the "Edit Unknown Words" button next to each subtitle after the subtitles are loaded.</p>
+            
+            <button onclick="window.history.back()">Back to Main Page</button>
+        </div>
+    </div>
+</body>
+</html>

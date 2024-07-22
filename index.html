@@ -1,42 +1,76 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anime Subtitle Study</title>
     <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
     <div class="container">
-      <div class="video-player">
-        <div class="video-container">
-          <video id="video" controls>
-            Your browser does not support the video tag.
-          </video>
+        <div class="video-player">
+            <div class="video-container">
+                <video id="video" controls>
+                    Your browser does not support the video tag.
+                </video>
+                <div id="unknown-words-overlay" class="unknown-words-overlay"></div>
+            </div>
+            <input type="file" id="video-upload" accept="video/,audio/,.mkv,.avi,.mov,.wmv,.flv,.webm" />
+            <label for="video-upload">Upload Video/Audio</label>
+            <button id="view-full-subtitles">View Full Subtitles</button>
+            <div class="pause-buttons">
+                <button id="enable-pause">Enable Pause</button>
+                <button id="disable-pause">Disable Pause</button>
+            </div>
+            <a href="./informative/informative.html" class="info-button">Info</a>
         </div>
-        <input
-          type="file"
-          id="video-upload"
-          accept="video/*,audio/*,.mkv,.avi,.mov,.wmv,.flv,.webm"
-        />
-        <label for="video-upload">Upload Video/Audio</label>
-      </div>
-      <div class="subtitle-panel">
-        <h2>字幕</h2>
-        <div class="centralize-button">
-          <button id="toggle-retime-buttons">Show Retiming Buttons</button>
+        <div class="subtitle-panel" id="subtitle-panel">
+            <div class="subtitle-panel-header">
+                <h2>字幕</h2>
+                <div class="menu-button" id="menu-button">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <button id="toggle-subtitle-panel" class="toggle-subtitle-panel-button">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="menu-options" id="menu-options">
+                <button id="fullscreen-button">Full Screen</button>
+                <button id="toggle-retime-buttons">Show Retiming Buttons</button>
+                <button id="save-unknown-words">Export Unknown Words</button>
+                <button id="load-unknown-words">Import Unknown Words</button>
+            </div>
+            <div id="subtitle-list">
+                <p id="subtitle-placeholder">
+                    No subtitles loaded. Please upload a subtitle file.
+                </p>
+            </div>
+            <input type="file" id="subtitle-upload" accept=".srt,.vtt,.ass,.ssa" />
+            <label for="subtitle-upload">Upload Subtitles</label>
         </div>
-        <div id="subtitle-list">
-          <p id="subtitle-placeholder">
-            No subtitles loaded. Please upload a subtitle file.
-          </p>
-        </div>
-        <input type="file" id="subtitle-upload" accept=".srt,.vtt,.ass,.ssa" />
-        <label for="subtitle-upload">Upload Subtitles</label>
-      </div>
-      <div id="copied-message" class="copied-message">Image copied</div>
+        <button id="show-subtitle-panel" class="show-subtitle-panel-button">
+            <i class="fas fa-arrow-right"></i>
+        </button>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.10.1/ffmpeg.min.js"></script>
+    <div id="copied-message" class="copied-message">Image copied</div>
+
+    <!-- Modals -->
+    <div id="full-subtitles-modal" class="modal">
+        <div class="modal-content">
+            <h3>Full Subtitles</h3>
+            <div id="full-subtitles-text" class="full-subtitles-container"></div>
+            <button id="close-full-subtitles">Close</button>
+        </div>
+    </div>
+    <div id="edit-words-modal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Unknown Words</h3>
+            <textarea id="unknown-words-input"></textarea>
+            <button id="save-unknown-words-modal">Save</button>
+            <button id="close-modal">Close</button>
+        </div>
+    </div>
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
