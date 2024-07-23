@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Unknown Words</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <h1>Convert Unknown Words</h1>
+        <p>Upload your Anki exported file to convert it into the correct format for unknown words.</p>
+        <p>The format should be: <code>Word (Reading) = Translation</code></p>
+        <p>Notice it may add names as words and numbers as well. It's not accurate as the ChatGPT  method but works perfectly to extract every word.</p>
+        <input type="file" id="anki-upload" accept=".txt">
+        <button id="convert-button">Convert</button>
+        <div id="output">
+            <h2>Converted Text:</h2>
+            <pre id="converted-text"></pre>
+        </div>
+        <button id="download-button" style="display:none;">Download Converted File</button>
+    </div>
+    <script src="convert.js"></script>
+</body>
+</html>

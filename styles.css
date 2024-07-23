@@ -94,28 +94,79 @@ input[type="file"] {
     display: none;
 }
 
-label, button, .info-button {
+/* Updated styles for buttons and labels */
+label[for="video-upload"],
+label[for="subtitle-upload"],
+button,
+.info-button {
     background-color: #e94560;
     color: white;
-    padding: 8px 16px;
+    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
     display: inline-block;
     margin-top: 10px;
     border: none;
     font-size: 14px;
-    width: auto;
-    height: auto;
-    line-height: 1.5;
+    width: 100%;
+    max-width: 180px;
+    height: 40px;
+    line-height: 20px;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.1s;
 }
 
+label[for="video-upload"]:hover,
+label[for="subtitle-upload"]:hover,
+button:hover,
+.info-button:hover {
+    background-color: #d3405a;
+    transform: translateY(-2px);
+}
+
+label[for="video-upload"]:active,
+label[for="subtitle-upload"]:active,
+button:active,
+.info-button:active {
+    transform: translateY(1px);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.pause-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+#enable-pause,
+#disable-pause {
+    flex: 1;
+    max-width: 180px;
+}
+
+#view-full-subtitles {
+    max-width: 180px;
+    margin-left: auto;
+}
+
+#video-upload + label,
+#subtitle-upload + label,
 .info-button {
-    text-decoration: none;
+    white-space: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px 10px;
 }
 
 .centralize-button {
@@ -135,9 +186,22 @@ button.sticky {
 .small-button {
     padding: 5px 10px;
     font-size: 12px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    margin-bottom: 5px;
+    position: static; /* Altera a posição para estática */
+}
+
+.edit-unknown-words {
+    padding: 5px 10px;
+    font-size: 12px;
+    position: static; /* Altera a posição para estática */
+    margin-bottom: 5px;
+}
+
+.subtitle-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 5px;
 }
 
 .subtitle-panel::-webkit-scrollbar {
@@ -239,13 +303,14 @@ button.sticky {
 .menu-button {
     background-color: #e94560;
     color: white;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-size: 18px;
 }
 
 .menu-options {
@@ -270,10 +335,6 @@ button.sticky {
     width: 100%;
     margin-bottom: 5px;
     text-align: left;
-}
-
-#view-full-subtitles {
-    margin-top: 10px;
 }
 
 #full-subtitles-text {
@@ -356,26 +417,20 @@ button.sticky {
     width: 80%;
 }
 
-.pause-buttons {
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.pause-buttons button {
-    margin-right: 5px;
-}
-
-#video-upload + label,
-#view-full-subtitles,
-.info-button,
-#subtitle-upload + label {
-    max-width: 200px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#enable-pause,
-#disable-pause {
-    max-width: 200px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    label[for="video-upload"],
+    label[for="subtitle-upload"],
+    button,
+    .info-button {
+        font-size: 12px;
+        padding: 8px 12px;
+        height: 36px; /* Ligeiramente menor para telas pequenas */
+        max-width: 160px; /* Menor largura para telas pequenas */
+    }
+    
+    #enable-pause,
+    #disable-pause {
+        max-width: 160px;
+    }
 }

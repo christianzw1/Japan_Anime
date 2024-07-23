@@ -1,0 +1,94 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Serif JP", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+h1, h2 {
+    color: #ffffff;
+}
+
+input[type="file"],
+button,
+.info-button {
+    background-color: #e94560;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    border: none;
+    font-size: 14px;
+    width: auto;
+    height: auto;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+button, .info-button {
+    text-decoration: none;
+}
+
+pre {
+    background-color: #1a1a2e;
+    color: white;
+    padding: 10px;
+    border: 1px solid #281f44;
+    border-radius: 5px;
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#output {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+#download-button {
+    display: none;
+    margin-top: 10px;
+}
+
+.copied-message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: none;
+    z-index: 3;
+}
