@@ -94,15 +94,28 @@ input[type="file"] {
     display: none;
 }
 
-label, button {
+label, button, .info-button {
     background-color: #e94560;
     color: white;
-    padding: 10px 15px;
+    padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
     display: inline-block;
     margin-top: 10px;
     border: none;
+    font-size: 14px;
+    width: auto;
+    height: auto;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.info-button {
+    text-decoration: none;
 }
 
 .centralize-button {
@@ -115,12 +128,12 @@ label, button {
 }
 
 button.sticky {
-    padding: 5px 10px;
+    padding: 8px 16px;
     font-size: 14px;
 }
 
 .small-button {
-    padding: 3px 6px;
+    padding: 5px 10px;
     font-size: 12px;
     position: absolute;
     top: 10px;
@@ -219,11 +232,15 @@ button.sticky {
     padding: 3px 6px;
 }
 
+.menu-button-container {
+    position: relative;
+}
+
 .menu-button {
     background-color: #e94560;
     color: white;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -232,18 +249,27 @@ button.sticky {
 }
 
 .menu-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
     background-color: #0a002a;
     border: 1px solid #281f44;
     border-radius: 5px;
     padding: 10px;
-    z-index: 999;
-    margin-top: 10px;
+    z-index: 1000;
+    width: 200px;
+}
+
+.menu-options.show {
+    display: block;
 }
 
 .menu-options button {
     display: block;
     width: 100%;
     margin-bottom: 5px;
+    text-align: left;
 }
 
 #view-full-subtitles {
@@ -325,15 +351,31 @@ button.sticky {
     transform: translateX(-50%);
     color: white;
     text-shadow: 2px 2px 2px black;
-    font-size: 32px; /* Aumentado o tamanho da fonte */
+    font-size: 32px;
     text-align: center;
     width: 80%;
 }
 
 .pause-buttons {
     margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .pause-buttons button {
     margin-right: 5px;
+}
+
+#video-upload + label,
+#view-full-subtitles,
+.info-button,
+#subtitle-upload + label {
+    max-width: 200px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#enable-pause,
+#disable-pause {
+    max-width: 200px;
 }

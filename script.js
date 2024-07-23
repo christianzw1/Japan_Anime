@@ -101,6 +101,7 @@ videoUpload.addEventListener('change', (event) => {
     video.src = videoURL;
     videoUpload.classList.add('hidden');
     videoUploadLabel.classList.add('hidden');
+    video.volume = 1.0; // Garante que o volume esteja no máximo ao carregar o vídeo
 });
 
 subtitleUpload.addEventListener('change', (event) => {
@@ -136,9 +137,9 @@ toggleRetimeButtons.addEventListener('click', () => {
 document.addEventListener('keydown', (event) => {
     if (event.key === 's' || event.key === 'S') {
         captureFrame();
-    } else if (event.key === 'ArrowLeft') {
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
         navigateSubtitle(-1);
-    } else if (event.key === 'ArrowRight') {
+    } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
         navigateSubtitle(1);
     }
 });
@@ -373,6 +374,7 @@ video.addEventListener('timeupdate', () => {
         }
         showSubtitleOnVideo(currentSubtitle.text);
         showUnknownWords(index);
+        currentSubtitleIndex = index;
 
         // Pausa o vídeo se a opção estiver habilitada, uma palavra desconhecida for exibida e não foi pausado anteriormente nesta legenda
         if (isPauseEnabled && unknownWords[index] && unknownWords[index].length > 0 && lastPausedSubtitleIndex !== index) {
@@ -511,15 +513,32 @@ function captureFrame() {
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    canvas.toBlob((blob) => {
-        const item = new ClipboardItem({ "image/png": blob });
+    canvas.toBlob(blob => {
+        const item = new ClipboardItem({ 'image/png': blob });
         navigator.clipboard.write([item]).then(() => {
             copiedMessage.style.display = 'block';
             setTimeout(() => {
                 copiedMessage.style.display = 'none';
             }, 2000);
         }).catch(err => {
-            console.error('Failed to copy: ', err);
+            console.error('Error copying image to clipboard:', err);
         });
     });
 }
+
+menuButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    menuOptions.classList.toggle('show');
+});
+
+// Close the menu when clicking outside
+document.addEventListener('click', (event) => {
+    if (!menuButton.contains(event.target) && !menuOptions.contains(event.target)) {
+        menuOptions.classList.remove('show');
+    }
+});
+
+// Prevent closing when clicking inside the menu
+menuOptions.addEventListener('click', (event) => {
+    event.stopPropagation();
+});

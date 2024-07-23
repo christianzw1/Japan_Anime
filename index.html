@@ -17,7 +17,7 @@
                 </video>
                 <div id="unknown-words-overlay" class="unknown-words-overlay"></div>
             </div>
-            <input type="file" id="video-upload" accept="video/,audio/,.mkv,.avi,.mov,.wmv,.flv,.webm" />
+            <input type="file" id="video-upload" accept="video/*,audio/*,.mkv,.avi,.mov,.wmv,.flv,.webm" />
             <label for="video-upload">Upload Video/Audio</label>
             <button id="view-full-subtitles">View Full Subtitles</button>
             <div class="pause-buttons">
@@ -29,18 +29,20 @@
         <div class="subtitle-panel" id="subtitle-panel">
             <div class="subtitle-panel-header">
                 <h2>字幕</h2>
-                <div class="menu-button" id="menu-button">
-                    <i class="fas fa-ellipsis-h"></i>
+                <div class="menu-button-container">
+                    <div class="menu-button" id="menu-button">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <div class="menu-options" id="menu-options">
+                        <button id="fullscreen-button">Full Screen</button>
+                        <button id="toggle-retime-buttons">Show Retiming Buttons</button>
+                        <button id="save-unknown-words">Export Unknown Words</button>
+                        <button id="load-unknown-words">Import Unknown Words</button>
+                    </div>
                 </div>
                 <button id="toggle-subtitle-panel" class="toggle-subtitle-panel-button">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-            </div>
-            <div class="menu-options" id="menu-options">
-                <button id="fullscreen-button">Full Screen</button>
-                <button id="toggle-retime-buttons">Show Retiming Buttons</button>
-                <button id="save-unknown-words">Export Unknown Words</button>
-                <button id="load-unknown-words">Import Unknown Words</button>
             </div>
             <div id="subtitle-list">
                 <p id="subtitle-placeholder">
