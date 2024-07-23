@@ -373,7 +373,6 @@ video.addEventListener('timeupdate', () => {
         }
         showSubtitleOnVideo(currentSubtitle.text);
         showUnknownWords(index);
-        currentSubtitleIndex = index;
 
         // Pausa o vídeo se a opção estiver habilitada, uma palavra desconhecida for exibida e não foi pausado anteriormente nesta legenda
         if (isPauseEnabled && unknownWords[index] && unknownWords[index].length > 0 && lastPausedSubtitleIndex !== index) {
@@ -504,4 +503,23 @@ function showUnknownWords(index) {
     } else {
         unknownWordsOverlay.style.display = 'none';
     }
+}
+
+function captureFrame() {
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob((blob) => {
+        const item = new ClipboardItem({ "image/png": blob });
+        navigator.clipboard.write([item]).then(() => {
+            copiedMessage.style.display = 'block';
+            setTimeout(() => {
+                copiedMessage.style.display = 'none';
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    });
 }
