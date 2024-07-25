@@ -342,7 +342,7 @@ button.sticky {
     height: 300px;
     margin-bottom: 10px;
     background-color: #1a1a2e;
-    color: white;
+    color: yellow;
     border: 1px solid #281f44;
     border-radius: 5px;
     padding: 10px;
@@ -433,4 +433,8 @@ button.sticky {
     #disable-pause {
         max-width: 160px;
     }
+}
+
+ol {
+    list-style-type: none;
 }

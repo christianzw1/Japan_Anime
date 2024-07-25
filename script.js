@@ -271,9 +271,14 @@ function displaySubtitles(subtitles) {
     subtitles.forEach((sub, index) => {
         const subItem = document.createElement('div');
         subItem.className = 'subtitle-item';
+
+        // Remove enumeração do início e do fim do texto da legenda, se houver
+        let cleanedText = sub.text.replace(/^\d+\s*/, '');
+        cleanedText = cleanedText.replace(/\s*\d+$/, '');
+
         subItem.innerHTML = `
             <span class="subtitle-time">${formatTime(sub.start)} - ${formatTime(sub.end)}</span>
-            <span class="subtitle-text">${sub.text}</span>
+            <span class="subtitle-text">${cleanedText}</span>
             <button class="small-button" onclick="repeatSubtitle(${index})">Repeat</button>
             <button class="retime-button" onclick="retimeSubtitles(${index})" style="display: none;">Retime to current</button>
             <button class="edit-unknown-words" onclick="editUnknownWords(${index})">Edit Unknown Words</button>
@@ -286,6 +291,8 @@ function displaySubtitles(subtitles) {
         subtitleList.appendChild(subItem);
     });
 }
+
+
 
 function editUnknownWords(index) {
     const sub = subtitles[index];
@@ -444,7 +451,7 @@ function showSubtitleOnVideo(text) {
         subtitleOverlay.style.bottom = '10%';
         subtitleOverlay.style.left = '50%';
         subtitleOverlay.style.transform = 'translateX(-50%)';
-        subtitleOverlay.style.color = 'white';
+        subtitleOverlay.style.color = 'yellow';
         subtitleOverlay.style.textShadow = '2px 2px 2px black';
         subtitleOverlay.style.fontSize = '25px';
         subtitleOverlay.style.textAlign = 'center';
@@ -452,7 +459,12 @@ function showSubtitleOnVideo(text) {
         subtitleOverlay.style.zIndex = '9999'; // Garante que as legendas fiquem sobre o vídeo
         videoContainer.appendChild(subtitleOverlay);
     }
-    subtitleOverlay.textContent = text;
+
+    // Remove enumeração do início e do fim do texto da legenda, se houver
+    let cleanedText = text.replace(/^\d+\s*/, '');
+    cleanedText = cleanedText.replace(/\s*\d+$/, '');
+
+    subtitleOverlay.textContent = cleanedText;
     
     // Ajusta o tamanho da fonte baseado no modo de tela cheia
     if (isFullScreen) {
