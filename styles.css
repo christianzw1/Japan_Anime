@@ -240,7 +240,7 @@ button.sticky {
     top: 20px;
     left: 20px;
     color: yellow;
-    font-size: 20px;
+    font-size: 35px;
     max-width: 80%;
     text-shadow: 
         -1px -1px 0 #000,
@@ -412,7 +412,7 @@ button.sticky {
     transform: translateX(-50%);
     color: white;
     text-shadow: 2px 2px 2px black;
-    font-size: 32px;
+    font-size: 40px;
     text-align: center;
     width: 80%;
 }

@@ -453,7 +453,7 @@ function showSubtitleOnVideo(text) {
         subtitleOverlay.style.transform = 'translateX(-50%)';
         subtitleOverlay.style.color = 'yellow';
         subtitleOverlay.style.textShadow = '2px 2px 2px black';
-        subtitleOverlay.style.fontSize = '25px';
+        subtitleOverlay.style.fontSize = '35px';
         subtitleOverlay.style.textAlign = 'center';
         subtitleOverlay.style.width = '80%';
         subtitleOverlay.style.zIndex = '9999'; // Garante que as legendas fiquem sobre o vídeo
@@ -468,7 +468,7 @@ function showSubtitleOnVideo(text) {
     
     // Ajusta o tamanho da fonte baseado no modo de tela cheia
     if (isFullScreen) {
-        subtitleOverlay.style.fontSize = '32px'; // Aumenta o tamanho da fonte em tela cheia
+        subtitleOverlay.style.fontSize = '40px'; // Aumenta o tamanho da fonte em tela cheia
     } else {
         subtitleOverlay.style.fontSize = '25px'; // Tamanho padrão fora da tela cheia
     }
