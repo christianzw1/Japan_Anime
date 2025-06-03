@@ -20,6 +20,7 @@ const viewFullSubtitlesButton = document.getElementById('view-full-subtitles');
 const fullSubtitlesModal = document.getElementById('full-subtitles-modal');
 const fullSubtitlesText = document.getElementById('full-subtitles-text');
 const closeFullSubtitlesButton = document.getElementById('close-full-subtitles');
+const exportSubtitlesButton = document.getElementById('export-subtitles');
 const toggleSubtitlePanelButton = document.getElementById('toggle-subtitle-panel');
 const showSubtitlePanelButton = document.getElementById('show-subtitle-panel');
 const subtitlePanel = document.getElementById('subtitle-panel');
@@ -34,6 +35,7 @@ let unknownWords = {};
 let currentSubtitleIndex = 0;
 let isPauseEnabled = false;
 let lastPausedSubtitleIndex = -1;
+let subtitleFormat = 'srt';
 
 function toggleFullScreen() {
     if (!document.fullscreenElement) {
@@ -111,8 +113,10 @@ subtitleUpload.addEventListener('change', (event) => {
         const content = e.target.result;
         if (file.name.endsWith('.srt')) {
             subtitles = parseSRTSubtitles(content);
+            subtitleFormat = 'srt';
         } else if (file.name.endsWith('.ass')) {
             subtitles = parseASSSubtitles(content);
+            subtitleFormat = 'ass';
         }
         if (subtitles.length > 0) {
             displaySubtitles(subtitles);
@@ -442,6 +446,18 @@ function formatTime(seconds) {
     return date.toISOString().substr(11, 8);
 }
 
+function secondsToSRTTime(seconds) {
+    const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const secs = String(Math.floor(seconds % 60)).padStart(2, '0');
+    const millis = String(Math.floor((seconds - Math.floor(seconds)) * 1000)).padStart(3, '0');
+    return `${hrs}:${mins}:${secs},${millis}`;
+}
+
+function generateSRT(subs) {
+    return subs.map((sub, idx) => `${idx + 1}\n${secondsToSRTTime(sub.start)} --> ${secondsToSRTTime(sub.end)}\n${sub.text}\n`).join('\n');
+}
+
 function showSubtitleOnVideo(text) {
     let subtitleOverlay = document.getElementById('subtitle-overlay');
     if (!subtitleOverlay) {
@@ -537,6 +553,16 @@ function captureFrame() {
         });
     });
 }
+
+exportSubtitlesButton.addEventListener('click', () => {
+    const data = generateSRT(subtitles);
+    const blob = new Blob([data], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'retimed_subtitles.srt';
+    a.click();
+});
 
 menuButton.addEventListener('click', (event) => {
     event.stopPropagation();
