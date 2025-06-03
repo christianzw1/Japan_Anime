@@ -506,12 +506,12 @@ function retimeSubtitles(index) {
     const currentTime = video.currentTime;
     const sub = subtitles[index];
     const timeDifference = currentTime - sub.start;
-    
-    subtitles.forEach((subtitle) => {
-        subtitle.start += timeDifference;
-        subtitle.end += timeDifference;
-    });
-    
+
+    for (let i = index; i < subtitles.length; i++) {
+        subtitles[i].start += timeDifference;
+        subtitles[i].end += timeDifference;
+    }
+
     displaySubtitles(subtitles);
 }
 
