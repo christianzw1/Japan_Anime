@@ -31,6 +31,7 @@ const condenseAudioButton = document.getElementById("condense-audio");
 
 let isFullScreen = false;
 let subtitles = [];
+let unknownWords = {};
 let retimeButtonsVisible = false;
 let currentSubtitleIndex = 0;
 let isPauseEnabled = false;
@@ -556,67 +557,79 @@ function captureFrame() {
     });
 }
 async function condenseAudio() {
-    if (!uploadedFile) {
-        alert("Please upload video/audio first.");
-        return;
-    }
-    if (subtitles.length === 0) {
-        alert("Please load subtitles first.");
-        return;
-    }
-    const arrayBuffer = await uploadedFile.arrayBuffer();
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let audioBuffer;
-    try {
-        audioBuffer = await audioCtx.decodeAudioData(arrayBuffer.slice(0));
-    } catch (e) {
-        alert("Unable to decode audio from file.");
-        return;
-    }
-    const sampleRate = audioBuffer.sampleRate;
-    let totalLength = 0;
-    subtitles.forEach(sub => {
-        totalLength += Math.floor((sub.end - sub.start) * sampleRate);
+  try {
+    if (!uploadedFile)  return alert("Primeiro envie o vídeo/áudio 😉");
+    if (!subtitles.length) return alert("Carregue as legendas antes 📑");
+
+    /* 1. decodifica */
+    const buf      = await uploadedFile.arrayBuffer();
+    const ctx      = new (window.AudioContext || webkitAudioContext)();
+    const srcBuf   = await ctx.decodeAudioData(buf);
+    const rate     = srcBuf.sampleRate;
+    const srcData  = srcBuf.getChannelData(0);
+
+    /* 2. fatia todos os trechos válidos */
+    const chunks = [];
+    subtitles.forEach(({ start, end }) => {
+      let a = Math.floor(start * rate);
+      let b = Math.ceil (end   * rate);
+      a = Math.max(0, Math.min(a, srcData.length));
+      b = Math.max(0, Math.min(b, srcData.length));
+      if (b > a) chunks.push(srcData.subarray(a, b));
     });
-    const outputBuffer = audioCtx.createBuffer(1, totalLength, sampleRate);
-    const out = outputBuffer.getChannelData(0);
+    if (!chunks.length) return alert("Nenhum trecho de áudio dentro do arquivo!");
+
+    /* 3. calcula total com segurança */
+    let total = 0;
+    chunks.forEach(c => total += c.length);
+    const merged = new Float32Array(total + 8); // +8 p/ garantir “folga”
+
+    /* 4. copia, verificando limites */
     let offset = 0;
-    subtitles.forEach(sub => {
-        const start = Math.floor(sub.start * sampleRate);
-        const end = Math.floor(sub.end * sampleRate);
-        const segment = audioBuffer.getChannelData(0).subarray(start, end);
-        out.set(segment, offset);
-        offset += segment.length;
+    chunks.forEach(c => {
+      const room = merged.length - offset;
+      merged.set(room >= c.length ? c : c.subarray(0, room), offset);
+      offset += c.length;
     });
-    const mp3Blob = encodeMp3(outputBuffer);
-    const url = URL.createObjectURL(mp3Blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'condensed_audio.mp3';
+
+    /* 5. joga no AudioBuffer p/ MP3 */
+    const outBuf = ctx.createBuffer(1, offset, rate);
+    outBuf.copyToChannel(merged.subarray(0, offset), 0);
+
+    /* 6. MP3 ↓ */
+    const mp3Blob = encodeMp3(outBuf);
+    const a       = document.createElement("a");
+    a.href        = URL.createObjectURL(mp3Blob);
+    a.download    = `${uploadedFile.name.replace(/\.[^.]+$/, "")}_condensed.mp3`;
     a.click();
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(a.href);
+    ctx.close();
+  } catch (err) {
+    console.error(err);
+    alert("Falhou ao condensar áudio – veja o console.");
+  }
 }
 
-function encodeMp3(buffer) {
-    const floatSamples = buffer.getChannelData(0);
-    // Convert Float32 samples (-1 to 1) to Int16 (-32768 to 32767)
-    const samples = new Int16Array(floatSamples.length);
-    for (let i = 0; i < floatSamples.length; i++) {
-        let s = Math.max(-1, Math.min(1, floatSamples[i]));
-        samples[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
-    }
 
-    const encoder = new lamejs.Mp3Encoder(1, buffer.sampleRate, 128);
-    const blockSize = 1152;
-    const mp3Data = [];
-    for (let i = 0; i < samples.length; i += blockSize) {
-        const chunk = samples.subarray(i, i + blockSize);
-        const mp3buf = encoder.encodeBuffer(chunk);
-        if (mp3buf.length > 0) mp3Data.push(mp3buf);
-    }
-    const end = encoder.flush();
-    if (end.length > 0) mp3Data.push(end);
-    return new Blob(mp3Data, { type: 'audio/mp3' });
+
+function encodeMp3(buffer) {
+  const float32 = buffer.getChannelData(0);
+  const pcm16   = new Int16Array(float32.length);
+  for (let i = 0; i < float32.length; i++) {
+    const x = Math.max(-1, Math.min(1, float32[i]));
+    pcm16[i] = x < 0 ? x * 0x8000 : x * 0x7FFF;
+  }
+
+  const encoder = new lamejs.Mp3Encoder(1, buffer.sampleRate, 128);
+  const BLK     = 1152;
+  const chunks  = [];
+
+  for (let i = 0; i < pcm16.length; i += BLK) {
+    const mp3buf = encoder.encodeBuffer(pcm16.subarray(i, i + BLK));
+    if (mp3buf.length) chunks.push(mp3buf);
+  }
+  chunks.push(encoder.flush());
+  return new Blob(chunks, { type: "audio/mp3" });
 }
 
 
