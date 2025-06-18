@@ -27,15 +27,16 @@ const subtitlePanel = document.getElementById('subtitle-panel');
 const videoContainer = document.querySelector('.video-container');
 const enablePauseButton = document.getElementById('enable-pause');
 const disablePauseButton = document.getElementById('disable-pause');
+const condenseAudioButton = document.getElementById("condense-audio");
 
 let isFullScreen = false;
 let subtitles = [];
 let retimeButtonsVisible = false;
-let unknownWords = {};
 let currentSubtitleIndex = 0;
 let isPauseEnabled = false;
 let lastPausedSubtitleIndex = -1;
 let subtitleFormat = 'srt';
+let uploadedFile = null;
 
 function toggleFullScreen() {
     if (!document.fullscreenElement) {
@@ -100,6 +101,7 @@ showSubtitlePanelButton.addEventListener('click', () => {
 videoUpload.addEventListener('change', (event) => {
     const file = event.target.files[0];
     const videoURL = URL.createObjectURL(file);
+    uploadedFile = file;
     video.src = videoURL;
     videoUpload.classList.add('hidden');
     videoUploadLabel.classList.add('hidden');
@@ -553,6 +555,69 @@ function captureFrame() {
         });
     });
 }
+async function condenseAudio() {
+    if (!uploadedFile) {
+        alert("Please upload video/audio first.");
+        return;
+    }
+    if (subtitles.length === 0) {
+        alert("Please load subtitles first.");
+        return;
+    }
+    const arrayBuffer = await uploadedFile.arrayBuffer();
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let audioBuffer;
+    try {
+        audioBuffer = await audioCtx.decodeAudioData(arrayBuffer.slice(0));
+    } catch (e) {
+        alert("Unable to decode audio from file.");
+        return;
+    }
+    const sampleRate = audioBuffer.sampleRate;
+    let totalLength = 0;
+    subtitles.forEach(sub => {
+        totalLength += Math.floor((sub.end - sub.start) * sampleRate);
+    });
+    const outputBuffer = audioCtx.createBuffer(1, totalLength, sampleRate);
+    const out = outputBuffer.getChannelData(0);
+    let offset = 0;
+    subtitles.forEach(sub => {
+        const start = Math.floor(sub.start * sampleRate);
+        const end = Math.floor(sub.end * sampleRate);
+        const segment = audioBuffer.getChannelData(0).subarray(start, end);
+        out.set(segment, offset);
+        offset += segment.length;
+    });
+    const mp3Blob = encodeMp3(outputBuffer);
+    const url = URL.createObjectURL(mp3Blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'condensed_audio.mp3';
+    a.click();
+}
+
+function encodeMp3(buffer) {
+    const floatSamples = buffer.getChannelData(0);
+    // Convert Float32 samples (-1 to 1) to Int16 (-32768 to 32767)
+    const samples = new Int16Array(floatSamples.length);
+    for (let i = 0; i < floatSamples.length; i++) {
+        let s = Math.max(-1, Math.min(1, floatSamples[i]));
+        samples[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    }
+
+    const encoder = new lamejs.Mp3Encoder(1, buffer.sampleRate, 128);
+    const blockSize = 1152;
+    let mp3Data = [];
+    for (let i = 0; i < samples.length; i += blockSize) {
+        const chunk = samples.subarray(i, i + blockSize);
+        const mp3buf = encoder.encodeBuffer(chunk);
+        if (mp3buf.length > 0) mp3Data.push(mp3buf);
+    }
+    const end = encoder.flush();
+    if (end.length > 0) mp3Data.push(end);
+    return new Blob(mp3Data, { type: 'audio/mp3' });
+}
+
 
 exportSubtitlesButton.addEventListener('click', () => {
     const data = generateSRT(subtitles);
@@ -563,6 +628,7 @@ exportSubtitlesButton.addEventListener('click', () => {
     a.download = 'retimed_subtitles.srt';
     a.click();
 });
+condenseAudioButton.addEventListener("click", condenseAudio);
 
 menuButton.addEventListener('click', (event) => {
     event.stopPropagation();
