@@ -597,6 +597,7 @@ async function condenseAudio() {
 }
 
 function encodeMp3(buffer) {
+
     const floatSamples = buffer.getChannelData(0);
     // Convert Float32 samples (-1 to 1) to Int16 (-32768 to 32767)
     const samples = new Int16Array(floatSamples.length);
@@ -610,6 +611,14 @@ function encodeMp3(buffer) {
     let mp3Data = [];
     for (let i = 0; i < samples.length; i += blockSize) {
         const chunk = samples.subarray(i, i + blockSize);
+
+    const samples = buffer.getChannelData(0);
+    const encoder = new lamejs.Mp3Encoder(1, buffer.sampleRate, 128);
+    const block = 1152;
+    let mp3Data = [];
+    for (let i = 0; i < samples.length; i += block) {
+        const chunk = samples.subarray(i, i + block);
+
         const mp3buf = encoder.encodeBuffer(chunk);
         if (mp3buf.length > 0) mp3Data.push(mp3buf);
     }
