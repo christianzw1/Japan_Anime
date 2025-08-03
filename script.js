@@ -178,7 +178,15 @@ function parseSRTSubtitles(content) {
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        if (line === '') continue;
+
+        // Skip numeric index lines to prevent them from becoming subtitle text
+        if (/^\d+$/.test(line)) {
+            if (currentSubtitle) {
+                subtitles.push(currentSubtitle);
+                currentSubtitle = null;
+            }
+            continue;
+        }
 
         const timeMatch = line.match(/(\d{2}:\d{2}:\d{2},\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2},\d{3})/);
         if (timeMatch) {
@@ -190,6 +198,11 @@ function parseSRTSubtitles(content) {
                 end: timeToSeconds(timeMatch[2]),
                 text: ''
             };
+        } else if (line === '') {
+            if (currentSubtitle) {
+                subtitles.push(currentSubtitle);
+                currentSubtitle = null;
+            }
         } else if (currentSubtitle) {
             currentSubtitle.text += (currentSubtitle.text ? '\n' : '') + line;
         }
@@ -458,7 +471,10 @@ function secondsToSRTTime(seconds) {
 }
 
 function generateSRT(subs) {
-    return subs.map((sub, idx) => `${idx + 1}\n${secondsToSRTTime(sub.start)} --> ${secondsToSRTTime(sub.end)}\n${sub.text}\n`).join('\n');
+    return subs.map((sub, idx) => {
+        const cleanedText = sub.text.replace(/^\d+\s*/, '').replace(/\s*\d+$/, '');
+        return `${idx + 1}\n${secondsToSRTTime(sub.start)} --> ${secondsToSRTTime(sub.end)}\n${cleanedText}\n`;
+    }).join('\n');
 }
 
 function showSubtitleOnVideo(text) {
