@@ -1,440 +1,496 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&display=swap');
 
 * {
-   font-family: "Noto Serif JP", sans-serif; 
+  box-sizing: border-box;
+  font-family: "Noto Serif JP", serif;
 }
 
 body {
-    background-color: #000000;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
+/* =================== PLAYER / LAYOUT =================== */
 .video-player {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 20px;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
 }
 
 .video-container {
-    position: relative;
-    width: 100%;
-    max-height: 70vh;
+  position: relative;
+  width: 100%;
+  max-height: 70vh;
 }
 
 #video {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 }
 
 .subtitle-panel {
-    flex: 1;
-    background-color: #0a002a;
-    padding: 20px;
-    overflow-y: auto;
-    position: relative;
+  flex: 1;
+  background-color: #0a002a;
+  padding: 20px;
+  overflow-y: auto;
+  position: relative;
 }
 
 .subtitle-panel-header {
-    position: sticky;
-    top: 0;
-    background-color: #0a002a;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  position: sticky;
+  top: 0;
+  background-color: #0a002a;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 h2 {
-    color: #ffffff;
-    font-size: 23px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
+  color: #ffffff;
+  font-size: 23px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
 }
 
+/* =================== LISTA DE LEGENDAS =================== */
 .subtitle-item {
-    background-color: #0a002a;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 18px;
-    line-height: 1.4;
-    cursor: pointer;
-    border: 1px solid #281f44;
-    position: relative;
+  background-color: #0a002a;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 18px;
+  line-height: 1.4;
+  cursor: pointer;
+  border: 1px solid #281f44;
+  position: relative;
 }
 
 .subtitle-item.active {
-    border-color: #fc821f;
-    background-color: #1a0040;
+  border-color: #fc821f;
+  background-color: #1a0040;
 }
 
 .subtitle-time {
-    display: block;
-    font-size: 12px;
-    color: #8d8d8d;
-    margin-bottom: 5px;
+  display: block;
+  font-size: 12px;
+  color: #8d8d8d;
+  margin-bottom: 5px;
 }
 
 .subtitle-text {
-    display: block;
+  display: block;
 }
 
-input[type="file"] {
-    display: none;
-}
+/* =================== UPLOADS / BOTÕES =================== */
+input[type="file"] { display: none; }
 
-/* Updated styles for buttons and labels */
 label[for="video-upload"],
 label[for="subtitle-upload"],
 button,
 .info-button {
-    background-color: #e94560;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: inline-block;
-    margin-top: 10px;
-    border: none;
-    font-size: 14px;
-    width: 100%;
-    max-width: 180px;
-    height: 40px;
-    line-height: 20px;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-decoration: none;
-    transition: background-color 0.3s, transform 0.1s;
+  background-color: #e94560;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+  border: none;
+  font-size: 14px;
+  width: 100%;
+  max-width: 180px;
+  height: 40px;
+  line-height: 20px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.1s;
 }
 
 label[for="video-upload"]:hover,
 label[for="subtitle-upload"]:hover,
 button:hover,
 .info-button:hover {
-    background-color: #d3405a;
-    transform: translateY(-2px);
+  background-color: #d3405a;
+  transform: translateY(-2px);
 }
 
 label[for="video-upload"]:active,
 label[for="subtitle-upload"]:active,
 button:active,
 .info-button:active {
-    transform: translateY(1px);
+  transform: translateY(1px);
 }
 
 .button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
 }
 
 .pause-buttons {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 #enable-pause,
-#disable-pause {
-    flex: 1;
-    max-width: 180px;
-}
+#disable-pause { flex: 1; max-width: 180px; }
 
-#view-full-subtitles {
-    max-width: 180px;
-    margin-left: auto;
-}
+#view-full-subtitles { max-width: 180px; margin-left: auto; }
 
 #video-upload + label,
 #subtitle-upload + label,
 .info-button {
-    white-space: normal;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 5px 10px;
+  white-space: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px 10px;
 }
 
 .centralize-button {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    position: sticky;
-    top: 0;
-    z-index: 2;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
-button.sticky {
-    padding: 8px 16px;
-    font-size: 14px;
-}
+button.sticky { padding: 8px 16px; font-size: 14px; }
 
-.small-button {
-    padding: 5px 10px;
-    font-size: 12px;
-    margin-bottom: 5px;
-    position: static; /* Altera a posição para estática */
-}
-
+.small-button,
 .edit-unknown-words {
-    padding: 5px 10px;
-    font-size: 12px;
-    position: static; /* Altera a posição para estática */
-    margin-bottom: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  margin-bottom: 5px;
+  position: static;
 }
 
 .subtitle-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 5px;
 }
 
-.subtitle-panel::-webkit-scrollbar {
-    width: 8px;
-}
+/* =================== SCROLLBAR PAINEL =================== */
+.subtitle-panel::-webkit-scrollbar { width: 8px; }
+.subtitle-panel::-webkit-scrollbar-track { background: #1a1a2e; }
+.subtitle-panel::-webkit-scrollbar-thumb { background: #2a2a4e; border-radius: 4px; }
+.subtitle-panel::-webkit-scrollbar-thumb:hover { background: #3a3a5e; }
 
-.subtitle-panel::-webkit-scrollbar-track {
-    background: #1a1a2e;
-}
-
-.subtitle-panel::-webkit-scrollbar-thumb {
-    background: #2a2a4e;
-    border-radius: 4px;
-}
-
-.subtitle-panel::-webkit-scrollbar-thumb:hover {
-    background: #3a3a5e;
-}
-
+/* =================== MENSAGEM COPIADO =================== */
 .copied-message {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    display: none;
-    z-index: 3;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  display: none;
+  z-index: 3000;
 }
 
+/* =================== PALAVRAS DESCONHECIDAS =================== */
 .unknown-words-overlay {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: yellow;
-    font-size: 35px;
-    max-width: 80%;
-    text-shadow: 
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000,
-        0 0 10px rgba(0,0,0,0.8);
-    z-index: 1000;
-    pointer-events: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: yellow;
+  font-size: 35px;
+  max-width: 80%;
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+     0    0   10px rgba(0,0,0,0.8);
+  z-index: 1100;
+  pointer-events: none;
 }
 
 .unknown-word {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
+  white-space: normal;
+  word-break: break-word;
 }
 
+/* =================== MODAL =================== */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.4);
+  display: none;
+  position: fixed;
+  z-index: 4000;
+  inset: 0;
+  background-color: rgba(0,0,0,0.4);
 }
 
 .modal-content {
-    background-color: #0a002a;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 10px;
+  background-color: #0a002a;
+  margin: 10vh auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
 }
 
 #unknown-words-input {
-    width: 100%;
-    height: 150px;
-    margin-bottom: 10px;
-    background-color: #1a1a2e;
-    color: white;
-    border: 1px solid #281f44;
-    border-radius: 5px;
-    padding: 10px;
+  width: 100%;
+  height: 150px;
+  margin-bottom: 10px;
+  background-color: #1a1a2e;
+  color: white;
+  border: 1px solid #281f44;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 #edit-unknown-words {
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 10px;
-    padding: 3px 6px;
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 10px;
+  padding: 3px 6px;
 }
 
-.menu-button-container {
-    position: relative;
-}
+/* =================== MENU FLOANTE =================== */
+.menu-button-container { position: relative; }
 
 .menu-button {
-    background-color: #e94560;
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 18px;
+  background-color: #e94560;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 .menu-options {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #0a002a;
-    border: 1px solid #281f44;
-    border-radius: 5px;
-    padding: 10px;
-    z-index: 1000;
-    width: 200px;
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #0a002a;
+  border: 1px solid #281f44;
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 3500;
+  width: 200px;
 }
 
-.menu-options.show {
-    display: block;
-}
+.menu-options.show { display: block; }
 
 .menu-options button {
-    display: block;
-    width: 100%;
-    margin-bottom: 5px;
-    text-align: left;
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+  text-align: left;
 }
 
+/* =================== LEGENDAS COMPLETAS =================== */
 #full-subtitles-text {
-    width: 100%;
-    height: 300px;
-    margin-bottom: 10px;
-    background-color: #1a1a2e;
-    color: yellow;
-    border: 1px solid #281f44;
-    border-radius: 5px;
-    padding: 10px;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 10px;
+  background-color: #1a1a2e;
+  color: yellow;
+  border: 1px solid #281f44;
+  border-radius: 5px;
+  padding: 10px;
 }
 
-.hidden {
-    display: none;
-}
+.hidden { display: none !important; }
 
+/* =================== CINEMA MODE =================== */
 .video-player.cinema-mode {
-    flex: 1 1 100%;
-    max-width: 100%;
-    justify-content: center;
-    padding: 0;
+  flex: 1 1 100%;
+  max-width: 100%;
+  justify-content: center;
+  padding: 0;
 }
 
-.video-container.cinema-mode {
-    max-height: 100vh;
-}
+.video-container.cinema-mode { max-height: 100vh; }
+.subtitle-panel.cinema-mode { display: none; }
 
-.subtitle-panel.cinema-mode {
-    display: none;
-}
-
-.toggle-subtitle-panel-button {
-    background-color: #e94560;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.toggle-subtitle-panel-button i {
-    font-size: 16px;
+.toggle-subtitle-panel-button,
+.show-subtitle-panel-button {
+  background-color: #e94560;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .show-subtitle-panel-button {
-    background-color: #e94560;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: none;
 }
 
-.show-subtitle-panel-button i {
-    font-size: 16px;
-}
+.toggle-subtitle-panel-button i,
+.show-subtitle-panel-button i { font-size: 16px; }
 
+/* =================== OVERLAY DAS LEGENDAS =================== */
 #subtitle-overlay {
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    text-shadow: 2px 2px 2px black;
-    font-size: 40px;
-    text-align: center;
-    width: 80%;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  text-shadow: 2px 2px 2px black;
+  font-size: 40px;
+  text-align: center;
+  width: 80%;
 }
 
-/* Responsive adjustments */
+/* Palavras clicáveis no overlay */
+.subtitle-word {
+  padding: 0 2px;
+  border-radius: 4px;
+}
+.subtitle-word:hover {
+  background: rgba(255,255,255,.12);
+}
+
+/* =================== POPUP DO DICIONÁRIO =================== */
+/* (unificado e sem duplicatas) */
+.yomi-popup{
+  position: absolute;
+  z-index: 5000;         /* acima do overlay e modais leves */
+  width: 380px;
+  max-width: 90vw;
+  background: #0e0b24;
+  color: #fff;
+  border: 1px solid #3b2f7a;
+  border-radius: 12px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.45);
+  padding: 10px 12px;
+  display: none;
+  pointer-events: auto;
+  user-select: text;
+}
+
+.yomi-popup ruby { ruby-position: under; }
+.yomi-popup rt   { font-size: .75em; color: #c6baf7; letter-spacing: .05em; }
+
+.yomi-popup .head{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 16px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yomi-popup .controls button{
+  background:#1b1550;
+  border:1px solid #4e3fb8;
+  color:#fff;
+  border-radius:8px;
+  padding:2px 8px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.yomi-popup .yomi-scroll{
+  max-height: 60vh;      /* ↑ MAIS ALTO para não cortar conteúdo */
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* scrollbar interno do popup */
+.yomi-popup .yomi-scroll::-webkit-scrollbar { width: 8px; }
+.yomi-popup .yomi-scroll::-webkit-scrollbar-track { background: #141036; }
+.yomi-popup .yomi-scroll::-webkit-scrollbar-thumb { background: #2a2370; border-radius: 4px; }
+
+.yomi-popup .item { margin-bottom: 12px; }
+
+.yomi-popup .title{
+  font-weight: 800;
+  font-size: 18px;
+  margin: 0 0 6px;
+}
+
+.yomi-popup .senses{
+  margin: 6px 0 6px 1.2em;
+  padding: 0;
+  list-style: disc;
+}
+
+.yomi-popup .senses li{
+  margin: 2px 0;
+  white-space: normal;    /* ← garante quebra */
+  word-break: break-word; /* ← evita overflow com gloss longas */
+  line-height: 1.35;
+}
+
+.yomi-popup .senses.empty { color: #bdb7e6; margin-left: 0; }
+
+.yomi-popup .tags{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.yomi-popup .tag{
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #1b1550;
+  border: 1px solid #4e3fb8;
+  font-size: 12px;
+}
+
+.yomi-popup .reading{ opacity:.85; font-size:13px; }
+
+/* =================== OUTROS =================== */
+ol { list-style-type: none; }
+
+/* =================== RESPONSIVO =================== */
 @media (max-width: 768px) {
-    label[for="video-upload"],
-    label[for="subtitle-upload"],
-    button,
-    .info-button {
-        font-size: 12px;
-        padding: 8px 12px;
-        height: 36px; /* Ligeiramente menor para telas pequenas */
-        max-width: 160px; /* Menor largura para telas pequenas */
-    }
-    
-    #enable-pause,
-    #disable-pause {
-        max-width: 160px;
-    }
-}
-
-ol {
-    list-style-type: none;
+  label[for="video-upload"],
+  label[for="subtitle-upload"],
+  button,
+  .info-button {
+    font-size: 12px;
+    padding: 8px 12px;
+    height: 36px;
+    max-width: 160px;
+  }
+  #enable-pause, #disable-pause { max-width: 160px; }
 }
