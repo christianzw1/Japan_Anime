@@ -221,34 +221,24 @@ function parseSRTSubtitles(content) {
   const subtitles = [];
   let currentSubtitle = null;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line === '') continue;
 
-    if (/^\d+$/.test(line)) {
-      if (currentSubtitle) {
-        subtitles.push(currentSubtitle);
-        currentSubtitle = null;
-      }
-      continue;
+        const timeMatch = line.match(/(\d{2}:\d{2}:\d{2},\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2},\d{3})/);
+        if (timeMatch) {
+            if (currentSubtitle) {
+                subtitles.push(currentSubtitle);
+            }
+            currentSubtitle = {
+                start: timeToSeconds(timeMatch[1]),
+                end: timeToSeconds(timeMatch[2]),
+                text: ''
+            };
+        } else if (currentSubtitle) {
+            currentSubtitle.text += (currentSubtitle.text ? '\n' : '') + line;
+        }
     }
-
-    const timeMatch = line.match(/(\d{2}:\d{2}:\d{2},\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2},\d{3})/);
-    if (timeMatch) {
-      if (currentSubtitle) subtitles.push(currentSubtitle);
-      currentSubtitle = {
-        start: timeToSeconds(timeMatch[1]),
-        end: timeToSeconds(timeMatch[2]),
-        text: ''
-      };
-    } else if (line === '') {
-      if (currentSubtitle) {
-        subtitles.push(currentSubtitle);
-        currentSubtitle = null;
-      }
-    } else if (currentSubtitle) {
-      currentSubtitle.text += (currentSubtitle.text ? '\n' : '') + line;
-    }
-  }
 
   if (currentSubtitle) subtitles.push(currentSubtitle);
   return subtitles;
@@ -514,10 +504,7 @@ function secondsToSRTTime(seconds) {
 }
 
 function generateSRT(subs) {
-  return subs.map((sub, idx) => {
-    const cleanedText = sub.text.replace(/^\d+\s*/, '').replace(/\s*\d+$/, '');
-    return `${idx + 1}\n${secondsToSRTTime(sub.start)} --> ${secondsToSRTTime(sub.end)}\n${cleanedText}\n`;
-  }).join('\n');
+    return subs.map((sub, idx) => `${idx + 1}\n${secondsToSRTTime(sub.start)} --> ${secondsToSRTTime(sub.end)}\n${sub.text}\n`).join('\n');
 }
 
 // ===== DICIONÁRIO =====
