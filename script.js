@@ -504,7 +504,9 @@ function secondsToSRTTime(seconds) {
 }
 
 function generateSRT(subs) {
-    return subs.map((sub, idx) => `${idx + 1}\n${secondsToSRTTime(sub.start)} --> ${secondsToSRTTime(sub.end)}\n${sub.text}\n`).join('\n');
+    return subs
+        .map(sub => `${secondsToSRTTime(sub.start)} --> ${secondsToSRTTime(sub.end)}\n${sub.text}\n`)
+        .join('\n');
 }
 
 // ===== DICIONÁRIO =====
